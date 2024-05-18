@@ -1,7 +1,17 @@
-import { Elysia } from "elysia";
+import { Elysia, t } from "elysia";
+import { swagger } from "@elysiajs/swagger";
+import { dataRoutes } from "./routes/data";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+const app = new Elysia()
+  .use(swagger())
+  .get("/", () => "Hello Elysia")
+  .get("/user/:id", ({ params: { id } }) => id, {
+    params: t.Object({
+      id: t.Numeric(),
+    }),
+  })
+  .use(dataRoutes)
+  .listen(3000);
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+console.log(`🦊 Elysia is running at http://${app.server?.hostname}:${app.server?.port}`);
+export type App = typeof app;
