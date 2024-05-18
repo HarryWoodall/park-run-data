@@ -9,5 +9,5 @@ services:
         value: 1.1.0
     region: oregon
     buildCommand: bun install
-    startCommand: bun dev
+    startCommand: bun start
 version: "1"

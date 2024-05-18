@@ -20,6 +20,15 @@ export default async function writeHtmlFile(href: string, name: string = "test.h
   });
 }
 
+export function readHtmlFile(name: string) {
+  try {
+    const result = fs.readFileSync(`${process.cwd()}/data/html/${name}`);
+    return result.toString();
+  } catch (error) {
+    return `Error reading file ${name} -- ${error}`;
+  }
+}
+
 export function deleteHtmlFile(name: string) {
   console.log(`removing ${name}`);
   fs.unlinkSync(`${process.cwd()}/data/html/${name}`);

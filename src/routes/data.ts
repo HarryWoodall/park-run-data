@@ -1,5 +1,5 @@
 import { Elysia, t } from "elysia";
-import writeHtmlFile, { deleteHtmlFile } from "../services/pageIO";
+import writeHtmlFile, { deleteHtmlFile, readHtmlFile } from "../services/pageIO";
 import parseGroupsPage, { parseClubHistoryPage, parseClubRunner } from "../services/parsePage";
 import { addRunnerStats, addRunningClubData, doesRunnersStatsExist, getRunners, getRunningClubs } from "../repositories/dbRepository";
 import Bottleneck from "bottleneck";
@@ -32,5 +32,14 @@ const dataRoutes = new Elysia({ prefix: "/data" })
     AppState.getInstance().isRunning = true;
     AppState.getInstance().runningState = "Runners";
     return "started gathering running data";
+  })
+  .get("/stopApp", () => {
+    AppState.getInstance().isRunning = false;
+    AppState.getInstance().runningState = "None";
+    return "Stopped app";
+  })
+  .get("/getHtmlFile", async () => {
+    await writeHtmlFile(`https://www.parkrun.org.uk/peel/results/clubhistory/?clubNum=24338`, `club_Ramsbottom Running Club.html`);
+    return readHtmlFile(`club_Ramsbottom Running Club.html`);
   });
 export { dataRoutes };
