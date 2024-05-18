@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: park-run-data
+    runtime: node
+    repo: https://github.com/HarryWoodall/park-run-data
+    plan: free
+    envVars:
+      - key: BUN_VERSION
+        value: 1.1.0
+    region: oregon
+    buildCommand: bun install
+    startCommand: bun dev
+version: "1"
